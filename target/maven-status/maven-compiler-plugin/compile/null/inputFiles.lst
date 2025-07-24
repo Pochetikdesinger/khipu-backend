@@ -1,0 +1,11 @@
+C:\Users\poom\OneDrive\Documentos\Khipu\src\main\java\com\khipu\api\junta\boundary\JuntaResource.java
+C:\Users\poom\OneDrive\Documentos\Khipu\src\main\java\com\khipu\api\junta\control\JuntaService.java
+C:\Users\poom\OneDrive\Documentos\Khipu\src\main\java\com\khipu\api\junta\entity\Junta.java
+C:\Users\poom\OneDrive\Documentos\Khipu\src\main\java\com\khipu\api\junta\entity\Participant.java
+C:\Users\poom\OneDrive\Documentos\Khipu\src\main\java\com\khipu\api\junta\entity\PaymentCycle.java
+C:\Users\poom\OneDrive\Documentos\Khipu\src\main\java\com\khipu\api\shared\dto\UserLoginDto.java
+C:\Users\poom\OneDrive\Documentos\Khipu\src\main\java\com\khipu\api\shared\dto\UserRegistrationDto.java
+C:\Users\poom\OneDrive\Documentos\Khipu\src\main\java\com\khipu\api\shared\exception\GlobalExceptionHandler.java
+C:\Users\poom\OneDrive\Documentos\Khipu\src\main\java\com\khipu\api\user\boundary\UserResource.java
+C:\Users\poom\OneDrive\Documentos\Khipu\src\main\java\com\khipu\api\user\control\UserService.java
+C:\Users\poom\OneDrive\Documentos\Khipu\src\main\java\com\khipu\api\user\entity\User.java
