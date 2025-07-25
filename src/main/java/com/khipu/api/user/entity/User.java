@@ -25,7 +25,7 @@ public class User extends PanacheEntity {
     public String email;
 
     @Column(nullable = false)
-    public String password; // Guardaremos la contraseña encriptada
+    public String password;
 
     @Column(nullable = false, unique = true, length = 8)
     public String dni;

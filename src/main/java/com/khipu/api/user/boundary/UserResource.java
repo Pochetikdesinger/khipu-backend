@@ -37,15 +37,13 @@ public class UserResource {
     public Response login(@Valid UserLoginDto loginDto) {
         User user = userService.login(loginDto);
 
-        // Si el login es exitoso, generamos un token JWT.
         String token = Jwt.issuer("https://khipu.api/issuer")
                 .upn(user.email)
-                .groups(new HashSet<>(java.util.Arrays.asList("User"))) // Rol del usuario
-                .claim("userId", user.id) // <--- Dato extra en el token
+                .groups(new HashSet<>(java.util.Arrays.asList("User")))
+                .claim("userId", user.id)
                 .expiresIn(Duration.ofHours(24))
-                .sign(); // <--- Quarkus usa 'privatekey.pem' automáticamente para firmar
+                .sign();
 
-        // Devolvemos el token en la respuesta
         return Response.ok(java.util.Collections.singletonMap("token", token)).build();
     }
 }

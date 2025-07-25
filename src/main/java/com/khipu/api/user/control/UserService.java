@@ -26,7 +26,7 @@ public class UserService {
         newUser.email = registrationDto.email;
         newUser.dni = registrationDto.dni;
 
-        // ¡IMPORTANTE! Ahora encriptamos la contraseña antes de guardarla.
+        // Ahora encriptamos la contraseña antes de guardarla.
         newUser.password = BcryptUtil.bcryptHash(registrationDto.password);
 
         newUser.persist();
