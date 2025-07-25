@@ -1,29 +1,49 @@
 package com.khipu.api.junta.boundary;
 
-import jakarta.annotation.security.RolesAllowed; // <--- ¡Añade esta importación!
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import com.khipu.api.junta.control.JuntaService;
+import com.khipu.api.junta.entity.Junta;
+import com.khipu.api.junta.entity.Participant;
+import com.khipu.api.shared.dto.JuntaCreationDto;
+import io.quarkus.security.Authenticated;
+import jakarta.inject.Inject;
+import jakarta.validation.Valid;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import org.eclipse.microprofile.jwt.JsonWebToken; // <--- ¡Añade esta importación!
-import jakarta.inject.Inject; // <--- ¡Añade esta importación!
-import io.quarkus.security.Authenticated; 
-
+import jakarta.ws.rs.core.Response;
+import org.eclipse.microprofile.jwt.JsonWebToken;
 
 @Path("/api/juntas")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Authenticated // ¡Todo en este recurso requerirá un token!
 public class JuntaResource {
 
     @Inject
-    JsonWebToken jwt; // <--- Podemos inyectar el token para obtener datos
+    JuntaService juntaService;
+
+    @Inject
+    JsonWebToken jwt; // Inyectamos el token para saber quién hace la llamada
+
+    @POST
+    public Response createJunta(@Valid JuntaCreationDto juntaDto) {
+        Long organizerId = Long.parseLong(jwt.getClaim("userId").toString());
+        Junta nuevaJunta = juntaService.createJunta(juntaDto, organizerId);
+        return Response.status(Response.Status.CREATED).entity(nuevaJunta).build();
+    }
 
     @GET
-    @Authenticated // <--- ¡ESTA ES LA LÍNEA CLAVE!
-    public String helloJuntas() {
-        // Ahora podemos saber qué usuario está haciendo la llamada
-        String userEmail = jwt.getName();
-        return "API de Juntas está funcionando! (Llamada autenticada por: " + userEmail + ")";
+    @Path("/{id}")
+    public Response getJuntaById(@PathParam("id") Long id) {
+        Junta junta = juntaService.findJuntaById(id);
+        return Response.ok(junta).build();
+    }
+
+    // --- ASEGÚRATE DE QUE ESTE MÉTODO ESTÉ EXACTAMENTE ASÍ ---
+    @POST
+    @Path("/{id}/join")
+    public Response joinJunta(@PathParam("id") Long id) {
+        Long userId = Long.parseLong(jwt.getClaim("userId").toString());
+        Participant newParticipant = juntaService.addUserToJunta(id, userId);
+        return Response.ok(newParticipant).build();
     }
 }
